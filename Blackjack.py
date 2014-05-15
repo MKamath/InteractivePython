@@ -86,7 +86,7 @@ class Hand:
         self.handCards.append(card)
         self.handValue += VALUES.get(card.rank)
         if card.rank == "A":
-            if self.handValue + 10 > 21:
+            if self.handValue + 10 <= 21:
                 self.handValue += 10
         if self.handValue > 21:
             self.busted = True
