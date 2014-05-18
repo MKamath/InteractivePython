@@ -122,11 +122,10 @@ class Ship:
         
     def draw(self,canvas):
         if self.thrust:
-            canvas.draw_image(self.image, [self.image_center[0] + self.image_size[0], self.image_center[1]] , self.image_size,
-                              self.pos, self.image_size, self.angle)
+            canvas.draw_image(self.image, [self.image_center[0] + self.image_size[0], self.image_center[1]] , 
+                              self.image_size, self.pos, self.image_size, self.angle)
         else:
-            canvas.draw_image(self.image, self.image_center, self.image_size,
-                              self.pos, self.image_size, self.angle)
+            canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
 
     def update(self):
         # update angle
@@ -151,8 +150,7 @@ class Ship:
         missile_pos = [self.pos[0] + self.radius * forward[0], 
                        self.pos[1] + self.radius * forward[1]]
         missile_vel = [self.vel[0] + 6 * forward[0], self.vel[1] + 6 * forward[1]]
-        missile_group.add(Sprite(missile_pos, missile_vel, self.angle, 0, 
-                                 missile_image, missile_info, missile_sound))
+        missile_group.add(Sprite(missile_pos, missile_vel, self.angle, 0, missile_image, missile_info, missile_sound))
         missile_sound.play()
     
     def get_radius(self):
@@ -206,8 +204,7 @@ class Sprite:
                                             self.image_center[1]], 
                               self.image_size, self.pos, self.image_size, self.angle)
         else:
-            canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, 
-                              self.image_size, self.angle)
+            canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
     
     def update(self):
         self.age += 1
@@ -255,12 +252,10 @@ def draw(canvas):
     wtime = (time / 4) % WIDTH
     center = debris_info.get_center()
     size = debris_info.get_size()
-    canvas.draw_image(nebula_image, nebula_info.get_center(), nebula_info.get_size(), 
-                      [WIDTH / 2, HEIGHT / 2], [WIDTH, HEIGHT])
-    canvas.draw_image(debris_image, center, size, (wtime - WIDTH / 2, HEIGHT / 2), 
-                      (WIDTH, HEIGHT))
-    canvas.draw_image(debris_image, center, size, (wtime + WIDTH / 2, HEIGHT / 2), 
-                      (WIDTH, HEIGHT))
+    canvas.draw_image(nebula_image, nebula_info.get_center(), nebula_info.get_size(), [WIDTH / 2, HEIGHT / 2], 
+                      [WIDTH, HEIGHT])
+    canvas.draw_image(debris_image, center, size, (wtime - WIDTH / 2, HEIGHT / 2), (WIDTH, HEIGHT))
+    canvas.draw_image(debris_image, center, size, (wtime + WIDTH / 2, HEIGHT / 2), (WIDTH, HEIGHT))
     
     # update & draw ship and sprites
     my_ship.update()
@@ -299,8 +294,8 @@ def draw(canvas):
         soundtrack.rewind()
     
     if not started:
-        canvas.draw_image(splash_image, splash_info.get_center(), splash_info.get_size(), 
-                          [WIDTH/2, HEIGHT/2], splash_info.get_size())
+        canvas.draw_image(splash_image, splash_info.get_center(), splash_info.get_size(), [WIDTH/2, HEIGHT/2], 
+                          splash_info.get_size())
 
 def group_collide(group, other_object):
     global lives, ship_explode
@@ -311,12 +306,10 @@ def group_collide(group, other_object):
                 group.remove(sprite)
                 if type(other_object) == Ship:
                     other_object.set_explode(True)
-                    explosion_group.add(Sprite(other_object.get_pos(), other_object.get_vel(), 
-                                               0, 0, explosion_image, explosion_info, 
-                                               explosion_sound))
-                explosion_group.add(Sprite(sprite.get_pos(), sprite.get_vel(), 
-                                           0, 0, explosion_image, explosion_info, 
-                                           explosion_sound))
+                    explosion_group.add(Sprite(other_object.get_pos(), other_object.get_vel(), 0, 0, explosion_image,
+                                        explosion_info, explosion_sound))
+                explosion_group.add(Sprite(sprite.get_pos(), sprite.get_vel(), 0, 0, explosion_image, explosion_info,
+                                    explosion_sound))
                 to_do = True
     return to_do
 
