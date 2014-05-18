@@ -1,4 +1,5 @@
-# Mini-project #6 - Blackjack
+# Title - Blackjack
+# Description :- Mini Project 6
 
 import simplegui
 import random
@@ -20,19 +21,18 @@ score = 0
 # define globals for cards
 SUITS = ('C', 'S', 'H', 'D')
 RANKS = ('A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K')
-VALUES = {'A':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, 
-          'T':10, 'J':10, 'Q':10, 'K':10}
+VALUES = {'A':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, 'T':10, 'J':10, 'Q':10, 'K':10}
 
-def game_over(winner, reason):
+def game_over(winner):
     global in_play, outcome, score
     if winner == "Dealer":
-        if reason == "busted":
+        if Dealer.busted:
             outcome = "Player busted! New Deal?"
         else:
             outcome = "Dealer Wins! New Deal?"
         score -= 1
     else:
-        if reason == "busted":
+        if Player.busted:
             outcome = "Dealer busted! New Deal?"
         else:
             outcome = "Player Wins! New Deal?"
@@ -137,7 +137,7 @@ def deal():
     global outcome, in_play
     global Player, Dealer, cardDeck
     if in_play:
-        game_over("Dealer","")
+        game_over("Dealer")
     cardDeck = Deck()
     Player = Hand()
     Dealer = Hand()
@@ -152,22 +152,22 @@ def hit():
         if not Player.busted:
             Player.add_card(cardDeck.deal_card())
         if Player.busted:
-            game_over("Dealer","busted")
+            game_over("Dealer")
        
 def stand():
     if in_play:
         if Player.busted:
-            game_over("Dealer", "busted")
+            game_over("Dealer")
         else:
             while Dealer.handValue < 17:
                 Dealer.add_card(cardDeck.deal_card())
             if Dealer.busted:
-                game_over("Player", "busted")
+                game_over("Player")
             else:
                 if Dealer.handValue >= Player.handValue:
-                    game_over("Dealer","")
+                    game_over("Dealer")
                 else:
-                    game_over("Player","")
+                    game_over("Player")
 
 # draw handler    
 def draw(canvas):
