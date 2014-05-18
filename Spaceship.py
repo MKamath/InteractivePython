@@ -1,4 +1,22 @@
-# program template for Spaceship
+# Title:- Spaceship
+
+# Description :- 
+# In our last two mini-projects, we will build a 2D space game RiceRocks that is inspired by the
+# classic arcade game Asteroids (1979). Asteroids is a relatively simple game by today's
+# standards, but was still immensely popular during its time. In the game, the player controls a
+# spaceship via four buttons: two buttons that rotate the spaceship clockwise or counterclockwise
+# (independent of its current velocity), a thrust button that accelerates the ship in its forward
+# direction and a fire button that shoots missiles. Large asteroids spawn randomly on the screen
+# with random velocities. The player's goal is to destroy these asteroids before they strike the
+# player's ship. In the arcade version, a large rock hit by a missile split into several fast
+# moving small asteroids that themselves must be destroyed. Occasionally, a flying saucer also
+# crosses the screen and attempts to destroy the player's spaceship. Searching for "asteroids
+# arcade" yields links to multiple versions of Asteroids that are available on the web
+# (including an updated version by Atari, the original creator of Asteroids).
+
+# For this mini-project, you will implement a working spaceship plus add a single asteroid and a
+# single missile.
+
 import simplegui
 import math
 import random
@@ -16,11 +34,12 @@ class ImageInfo:
         self.center = center
         self.size = size
         self.radius = radius
+        self.animated = animated
         if lifespan:
             self.lifespan = lifespan
+        
         else:
             self.lifespan = float('inf')
-        self.animated = animated
 
     def get_center(self):
         return self.center
@@ -83,7 +102,6 @@ def angle_to_vector(ang):
 def dist(p,q):
     return math.sqrt((p[0] - q[0]) ** 2+(p[1] - q[1]) ** 2)
 
-
 # Ship class
 class Ship:
     def __init__(self, pos, vel, angle, image, info):
@@ -98,39 +116,54 @@ class Ship:
         self.radius = info.get_radius()
     
     def draw(self,canvas):
-        if self.thrust:  
-            self.image_center[0] = 135  
-        else:  
-            self.image_center[0] = 45  
-        canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)  
+        if self.thrust:
+            canvas.draw_image(self.image, [self.image_center[0] + self.image_size[0], self.image_center[1]] , self.image_size,
+                              self.pos, self.image_size, self.angle)
+        
+        else:
+            canvas.draw_image(self.image, self.image_center, self.image_size,
+                              self.pos, self.image_size, self.angle)
 
     def update(self):
+        # update angle
         self.angle += self.angle_vel
+        
         # update position
         self.pos[0] = (self.pos[0] + self.vel[0]) % WIDTH
         self.pos[1] = (self.pos[1] + self.vel[1]) % HEIGHT
+
         # update velocity
-        for i in range(2):
-            if self.vel[i] >= 2:
-                self.vel[i] %= 2
-            self.vel[i] += friction * 0.01
         if self.thrust:
-            #Thrust update - acceleration in direction of forward vector
-            ship_thrust_sound.play()
-            forward = angle_to_vector(self.angle)
-            for i in range(2):
-                self.vel[i] += forward[i] * 0.1
-                self.vel[i] *= (1 - friction)
-        else:
-            ship_thrust_sound.rewind()
+            acc = angle_to_vector(self.angle)
+            self.vel[0] += acc[0] * .1
+            self.vel[1] += acc[1] * .1
+            
+        self.vel[0] *= .99
+        self.vel[1] *= .99
     
     def shoot(self):
         global a_missile  
-        foward = angle_to_vector(self.angle)  
-        pos = [self.pos[0] + (self.radius * foward[0]), self.pos[1] + (self.radius * foward[1])]  
-        vel = [self.vel[0] + (3 * foward[0]), self.vel[1] + (3 * foward[1])]  
-        a_missile = Sprite(pos, vel, self.angle, 0, missile_image, missile_info, missile_sound)  
+        forward = angle_to_vector(self.angle)
+        missile_pos = [self.pos[0] + self.radius * forward[0], 
+                       self.pos[1] + self.radius * forward[1]]
+        missile_vel = [self.vel[0] + 6 * forward[0], self.vel[1] + 6 * forward[1]]
+        missile_group.add(Sprite(missile_pos, missile_vel, self.angle, 0, 
+                                 missile_image, missile_info, missile_sound))
         missile_sound.play()
+    
+    def set_thrust(self, on):
+        self.thrust = on
+        if on:
+            ship_thrust_sound.rewind()
+            ship_thrust_sound.play()
+        else:
+            ship_thrust_sound.pause()
+        
+    def increment_angle_vel(self):
+        self.angle_vel += .05
+        
+    def decrement_angle_vel(self):
+        self.angle_vel -= .05
 
 # Sprite class
 class Sprite:
@@ -146,11 +179,12 @@ class Sprite:
         self.lifespan = info.get_lifespan()
         self.animated = info.get_animated()
         self.age = 0
+        
         if sound:
             sound.rewind()
             sound.play()
     
-    def draw(self, canvas):
+    def draw(self, canvas):        
         if self.animated:
             canvas.draw_image(self.image, [self.image_center[0] + (self.image_size[0] * self.age), self.image_center[1]], 
                               self.image_size, self.pos, self.image_size, self.angle)
@@ -160,10 +194,8 @@ class Sprite:
     
     def update(self):
         self.angle += self.angle_vel 
-        for i in range(2):
-            self.pos[i] += self.vel[i]
-        self.pos[0] %= WIDTH
-        self.pos[1] %= HEIGHT
+        self.pos[0] = (self.pos[0] + self.vel[0]) % WIDTH
+        self.pos[1] = (self.pos[1] + self.vel[1]) % HEIGHT
 
 def draw(canvas):
     global time
@@ -197,38 +229,38 @@ def draw(canvas):
 # timer handler that spawns a rock    
 def rock_spawner():
     global a_rock
-    a_rock = Sprite([random.random()*WIDTH, random.random()*HEIGHT], 
-                    [random.random(), random.random()], 
-                    random.random()*2*math.pi, random.random()*0.1, 
-                    asteroid_image, asteroid_info)
+    rock_pos = [random.randrange(0, WIDTH), random.randrange(0, HEIGHT)]
+    rock_vel = [random.random() * .6 - .3, random.random() * .6 - .3]
+    rock_avel = random.random() * .2 - .1
+    a_rock = Sprite(rock_pos, rock_vel, 0, rock_avel, asteroid_image, asteroid_info)
     
-def keydown(key):  
-    if key == simplegui.KEY_MAP['left']:  
-        my_ship.angle_vel = -0.1  
-    elif key == simplegui.KEY_MAP['right']:  
-        my_ship.angle_vel = 0.1  
-    elif key == simplegui.KEY_MAP['up']:  
-        my_ship.thrust = True  
-    elif key == simplegui.KEY_MAP['space']:  
-        my_ship.shoot()  
-          
-def keyup(key):  
-    if key == simplegui.KEY_MAP['left']:  
-        my_ship.angle_vel = 0  
-    elif key == simplegui.KEY_MAP['right']:  
-        my_ship.angle_vel = 0  
-    elif key == simplegui.KEY_MAP['up']:  
-        my_ship.thrust = False 
+def keydown(key):
+    if key == simplegui.KEY_MAP['left']:
+        my_ship.decrement_angle_vel()
+    elif key == simplegui.KEY_MAP['right']:
+        my_ship.increment_angle_vel()
+    elif key == simplegui.KEY_MAP['up']:
+        my_ship.set_thrust(True)
+    elif key == simplegui.KEY_MAP['space']:
+        my_ship.shoot()
+        
+def keyup(key):
+    if key == simplegui.KEY_MAP['left']:
+        my_ship.increment_angle_vel()
+    elif key == simplegui.KEY_MAP['right']:
+        my_ship.decrement_angle_vel()
+    elif key == simplegui.KEY_MAP['up']:
+        my_ship.set_thrust(False)
 
 # initialize frame
 frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
 
-# initialize ship and two sprites
+# initializing ship and two sprites
 my_ship = Ship([WIDTH / 2, HEIGHT / 2], [0, 0], 0, ship_image, ship_info)
 a_rock = Sprite([WIDTH / 3, HEIGHT / 3], [1, 1], 0, 0, asteroid_image, asteroid_info)
 a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image, missile_info, missile_sound)
 
-# register handlers
+# registering handlers
 frame.set_draw_handler(draw)
 frame.set_keydown_handler(keydown)
 frame.set_keyup_handler(keyup)
