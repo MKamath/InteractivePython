@@ -30,9 +30,7 @@ score = 0
 lives = 3
 time = 0
 trip = 0
-friction = 0.1
 started = False
-explosion_group = set()
 
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
@@ -385,6 +383,7 @@ timer = simplegui.create_timer(1000.0, rock_spawner)
 my_ship = Ship([WIDTH / 2, HEIGHT / 2], [0, 0], 0, ship_image, ship_info)
 rock_group = set()
 missile_group = set()
+explosion_group = set()
 
 # get things rolling
 frame.start()
