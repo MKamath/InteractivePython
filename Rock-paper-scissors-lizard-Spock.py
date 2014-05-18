@@ -46,14 +46,19 @@ def name_to_number(name):
     """ This returns the number equated to the string """
     if name == 'rock':
         return 0
+   
     elif name == 'Spock':
         return 1
+    
     elif name == 'paper':
         return 2
+    
     elif name == 'lizard':
         return 3
+    
     elif name == 'scissors':
         return 4
+    
     else:
         print "Error in function: name_to_number"
         print "name:", name
@@ -63,14 +68,19 @@ def number_to_name(number):
     """ This returns the number equated to the string """
     if number == 0:
         return 'rock'
+    
     elif number == 1:
         return 'Spock'
+    
     elif number == 2:
         return 'paper'
+    
     elif number == 3:
         return 'lizard'
+    
     elif number == 4:
         return 'scissors'
+    
     else:
         print "Error in function: number_to_name"
         print "number:", number
@@ -101,10 +111,13 @@ def rpsls(player_choice):
     # determine winner and print winner message
     if (player_number - computer_number) % 5  == 0:
         print "Player and computer tie!"
+    
     elif (player_number - computer_number) % 5 <= 2:
         print "Player wins!"
+    
     elif (player_number - computer_number) % 5 >= 3:
         print "Computer wins!"
+    
     else:
         print "Error in function: rpsls"
         print "player_number:", player_number
