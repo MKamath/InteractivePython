@@ -26,8 +26,7 @@ WIDTH = 800
 HEIGHT = 600
 score = 0
 lives = 3
-time = 0.5
-friction = 0.1
+time = 0
 
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
