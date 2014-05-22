@@ -26,8 +26,7 @@ WIDTH = 800
 HEIGHT = 600
 score = 0
 lives = 3
-time = 0.5
-friction = 0.1
+time = 0
 
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
@@ -114,12 +113,11 @@ class Ship:
         self.image_center = info.get_center()
         self.image_size = info.get_size()
         self.radius = info.get_radius()
-    
+        
     def draw(self,canvas):
         if self.thrust:
             canvas.draw_image(self.image, [self.image_center[0] + self.image_size[0], self.image_center[1]] , self.image_size,
                               self.pos, self.image_size, self.angle)
-        
         else:
             canvas.draw_image(self.image, self.image_center, self.image_size,
                               self.pos, self.image_size, self.angle)
@@ -147,8 +145,8 @@ class Ship:
         missile_pos = [self.pos[0] + self.radius * forward[0], 
                        self.pos[1] + self.radius * forward[1]]
         missile_vel = [self.vel[0] + 6 * forward[0], self.vel[1] + 6 * forward[1]]
-        missile_group.add(Sprite(missile_pos, missile_vel, self.angle, 0, 
-                                 missile_image, missile_info, missile_sound))
+        a_missile = Sprite(missile_pos, missile_vel, self.angle, 0, 
+                                 missile_image, missile_info, missile_sound)
         missile_sound.play()
     
     def set_thrust(self, on):
@@ -164,6 +162,7 @@ class Ship:
         
     def decrement_angle_vel(self):
         self.angle_vel -= .05
+
 
 # Sprite class
 class Sprite:
