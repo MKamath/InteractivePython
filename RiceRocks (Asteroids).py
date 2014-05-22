@@ -107,7 +107,6 @@ def angle_to_vector(ang):
 def dist(p,q):
     return math.sqrt((p[0] - q[0]) ** 2+(p[1] - q[1]) ** 2)
 
-
 # Ship class
 class Ship:
     def __init__(self, pos, vel, angle, image, info):
