@@ -204,12 +204,10 @@ def draw(canvas):
     wtime = (time / 4) % WIDTH
     center = debris_info.get_center()
     size = debris_info.get_size()
-    canvas.draw_image(nebula_image, nebula_info.get_center(), nebula_info.get_size(), 
-                      [WIDTH / 2, HEIGHT / 2], [WIDTH, HEIGHT])
-    canvas.draw_image(debris_image, center, size, (wtime - WIDTH / 2, HEIGHT / 2), 
-                      (WIDTH, HEIGHT))
-    canvas.draw_image(debris_image, center, size, (wtime + WIDTH / 2, HEIGHT / 2), 
-                      (WIDTH, HEIGHT))
+    canvas.draw_image(nebula_image, nebula_info.get_center(), nebula_info.get_size(), [WIDTH / 2, HEIGHT / 2], 
+                      [WIDTH, HEIGHT])
+    canvas.draw_image(debris_image, center, size, (wtime - WIDTH / 2, HEIGHT / 2), (WIDTH, HEIGHT))
+    canvas.draw_image(debris_image, center, size, (wtime + WIDTH / 2, HEIGHT / 2), (WIDTH, HEIGHT))
     
     # draw ship and sprites
     my_ship.draw(canvas)
