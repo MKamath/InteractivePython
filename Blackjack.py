@@ -107,7 +107,7 @@ class Hand:
         else:
             string = ""
             for card in self.handCards:
-                string += card + " "
+                string += str(card) + " "
             return "Hand contains " + string
 
     def add_card(self, card):
@@ -165,7 +165,7 @@ class Deck:
         string = ""
         
         for card in self.deckCards:
-            string += card + " "
+            string += str(card) + " "
         
         return "Deck contains " + string
 
