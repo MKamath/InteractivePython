@@ -337,10 +337,8 @@ def rock_spawner():
         rock_vel = [random.random() * .6 - .3, random.random() * .6 - .3]
         rock_avel = random.random() * .2 - .1
         rock = Sprite(rock_pos, rock_vel, 0, rock_avel, asteroid_image, asteroid_info)
-        pos = my_ship.get_pos()
-        radius = my_ship.get_radius()
-        distance = dist(rock.pos, pos)
-        if distance > (rock.radius + radius + 10):
+        distance = dist(rock_pos, my_ship.get_pos())
+        if distance > (rock.get_radius() + my_ship.get_radius() + 10):
             rock_group.add(rock)
 
 def keydown(key):
