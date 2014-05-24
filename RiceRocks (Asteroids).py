@@ -199,8 +199,7 @@ class Sprite:
     
     def draw(self, canvas):        
         if self.animated:
-            canvas.draw_image(self.image, [self.image_center[0] + (self.image_size[0] * self.age),
-                                            self.image_center[1]], 
+            canvas.draw_image(self.image, [self.image_center[0] + (self.image_size[0] * self.age), self.image_center[1]], 
                               self.image_size, self.pos, self.image_size, self.angle)
         else:
             canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
