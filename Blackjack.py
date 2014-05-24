@@ -219,8 +219,8 @@ def draw(canvas):
     Dealer.draw(canvas,[50, 225])
     
     if in_play:
-        canvas.draw_image(card_back, CARD_BACK_CENTER, CARD_BACK_SIZE, [50 + CARD_BACK_CENTER[0], 225 + CARD_BACK_CENTER[1]], 
-                          CARD_BACK_SIZE)
+        canvas.draw_image(card_back, CARD_BACK_CENTER, CARD_BACK_SIZE, 
+                          [50 + CARD_BACK_CENTER[0], 225 + CARD_BACK_CENTER[1]], CARD_BACK_SIZE)
     
     if Dealer.removed:
         canvas.draw_text('Only first 5 cards shown', 
