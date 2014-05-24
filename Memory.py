@@ -32,13 +32,8 @@ def mouseclick(pos):
     
     if pos[0]//50 not in choice: 
     
-        if state == 0:
-            """ Initially, no cards are exposed yet """
-            choice.append(pos[0]//50)
-            exposed[pos[0]//50] = True
-            state += 1
-        
-        elif state == 1:
+        if state <= 1:
+            """ Initially, no cards are exposed yet  or """
             """ One card has been exposed, so we add that to the list """
             choice.append(pos[0]//50)
             exposed[pos[0]//50] = True
@@ -63,11 +58,8 @@ def draw(canvas):
     label.set_text("Turns = " + str(turns))
     
     for i in range(len(deck_of_cards)):
-    
         if exposed[i] == False:
-            canvas.draw_polygon([(50*i, 0), (50*(i + 1), 0), 
-                                 (50*(i + 1), 100),(50*i, 100)], 3, "White", "Blue");
-        
+            canvas.draw_polygon([(50*i, 0), (50*(i + 1), 0), (50*(i + 1), 100),(50*i, 100)], 3, "White", "Blue");
         else:
             canvas.draw_text(str(deck_of_cards[i]),[(50*i) + 5, 75], 60, "White");
     
