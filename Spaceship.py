@@ -116,11 +116,10 @@ class Ship:
         
     def draw(self,canvas):
         if self.thrust:
-            canvas.draw_image(self.image, [self.image_center[0] + self.image_size[0], self.image_center[1]] , self.image_size,
-                              self.pos, self.image_size, self.angle)
+            canvas.draw_image(self.image, [self.image_center[0] + self.image_size[0], self.image_center[1]] , 
+                              self.image_size, self.pos, self.image_size, self.angle)
         else:
-            canvas.draw_image(self.image, self.image_center, self.image_size,
-                              self.pos, self.image_size, self.angle)
+            canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
 
     def update(self):
         # update angle
@@ -145,8 +144,7 @@ class Ship:
         missile_pos = [self.pos[0] + self.radius * forward[0], 
                        self.pos[1] + self.radius * forward[1]]
         missile_vel = [self.vel[0] + 6 * forward[0], self.vel[1] + 6 * forward[1]]
-        a_missile = Sprite(missile_pos, missile_vel, self.angle, 0, 
-                                 missile_image, missile_info, missile_sound)
+        a_missile = Sprite(missile_pos, missile_vel, self.angle, 0, missile_image, missile_info, missile_sound)
         missile_sound.play()
     
     def set_thrust(self, on):
@@ -188,8 +186,7 @@ class Sprite:
             canvas.draw_image(self.image, [self.image_center[0] + (self.image_size[0] * self.age), self.image_center[1]], 
                               self.image_size, self.pos, self.image_size, self.angle)
         else:
-            canvas.draw_image(self.image, self.image_center, self.image_size, 
-                              self.pos, self.image_size, self.angle)
+            canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
     
     def update(self):
         self.angle += self.angle_vel 
