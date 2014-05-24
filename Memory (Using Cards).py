@@ -16,7 +16,7 @@ CARD_BACK_CENTER = (35.5, 48)
 card_back = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/card_back.png")    
 
 # initializing global variables
-state = ""
+state = 0
 turns = 0
 
 # defining globals for cards
