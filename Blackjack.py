@@ -88,8 +88,7 @@ class Card:
     def draw(self, canvas, pos):
         card_loc = (CARD_CENTER[0] + CARD_SIZE[0] * RANKS.index(self.rank), 
                     CARD_CENTER[1] + CARD_SIZE[1] * SUITS.index(self.suit))
-        canvas.draw_image(card_images, card_loc, CARD_SIZE, 
-                          [pos[0] + CARD_CENTER[0], pos[1] + CARD_CENTER[1]], CARD_SIZE)
+        canvas.draw_image(card_images, card_loc, CARD_SIZE, [pos[0] + CARD_CENTER[0], pos[1] + CARD_CENTER[1]], CARD_SIZE)
 
 # defining hand class
 class Hand:
@@ -220,8 +219,7 @@ def draw(canvas):
     Dealer.draw(canvas,[50, 225])
     
     if in_play:
-        canvas.draw_image(card_back, CARD_BACK_CENTER, CARD_BACK_SIZE, 
-                          [50 + CARD_BACK_CENTER[0], 225 + CARD_BACK_CENTER[1]], 
+        canvas.draw_image(card_back, CARD_BACK_CENTER, CARD_BACK_SIZE, [50 + CARD_BACK_CENTER[0], 225 + CARD_BACK_CENTER[1]], 
                           CARD_BACK_SIZE)
     
     if Dealer.removed:
