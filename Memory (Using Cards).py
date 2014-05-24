@@ -15,10 +15,6 @@ CARD_BACK_SIZE = (71, 96)
 CARD_BACK_CENTER = (35.5, 48)
 card_back = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/card_back.png")    
 
-# initializing global variables
-state = 0
-turns = 0
-
 # defining globals for cards
 SUITS = ('C', 'S', 'H', 'D')
 RANKS = ('A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K')
